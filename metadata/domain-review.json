@@ -1,0 +1,73 @@
+{
+  "repo": "granite-move-tablebase-scope",
+  "language": "Elixir",
+  "category": "Chess and game engines",
+  "goal": "Build an Elixir toolkit that studies tablebase behavior through bounded scenario files, with conflict explanations and local-only command execution.",
+  "review_model": {
+    "terms": [
+      "position pressure",
+      "move ordering",
+      "search width",
+      "endgame risk"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "position pressure",
+      "signal": 54,
+      "slack": 42,
+      "drag": 19,
+      "confidence": 65,
+      "score": 158,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "move ordering",
+      "signal": 60,
+      "slack": 45,
+      "drag": 24,
+      "confidence": 50,
+      "score": 143,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "search width",
+      "signal": 63,
+      "slack": 45,
+      "drag": 9,
+      "confidence": 46,
+      "score": 190,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "endgame risk",
+      "signal": 61,
+      "slack": 41,
+      "drag": 14,
+      "confidence": 45,
+      "score": 166,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "position pressure",
+      "signal": 84,
+      "slack": 27,
+      "drag": 14,
+      "confidence": 57,
+      "score": 210,
+      "lane": "ship"
+    }
+  ]
+}

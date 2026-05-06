@@ -1,68 +1,40 @@
 # granite-move-tablebase-scope
 
-`granite-move-tablebase-scope` treats chess and game engines as a local verification problem. The Elixir implementation is intentionally narrow, but the fixtures and notes make the behavior explicit.
+`granite-move-tablebase-scope` keeps a focused Elixir implementation around chess and game engines. The project goal is to build an Elixir toolkit that studies tablebase behavior through bounded scenario files, with conflict explanations and local-only command execution.
 
-## Granite Move Tablebase Scope Checkpoints
+## Purpose
 
-Treat the compact fixture as the contract and the extended examples as a scratchpad. The code should stay boring enough that a change in behavior is obvious from the test output.
+The point is to make a small domain rule concrete enough that a reader can change it and immediately see what broke.
 
-## What This Is For
+## Granite Move Tablebase Scope Review Notes
 
-The repository exists to keep a technical idea small enough to reason about. The implementation avoids external dependencies where possible, then uses fixtures to make changes easy to review.
+`stale` and `stress` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## Project Layout
+## What Is Covered
 
-- `lib`: library code
-- `test`: language test directory
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+- `fixtures/domain_review.csv` adds cases for position pressure and move ordering.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/granite-move-tablebase-walkthrough.md` walks through the case spread.
+- The Elixir code includes a review path for `position pressure` and `move ordering`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Useful Pieces
+## Implementation Notes
 
-- Includes extended examples for turn flow, including `surge` and `degraded`.
-- Documents search limits tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Architecture Notes
+The added Elixir path is deliberately direct, with fixtures doing most of the explaining.
 
-The project is organized around a compact model rather than a large framework. Inputs are scored, classified, and checked against golden fixtures. The constants live in code and are mirrored in metadata so documentation drift is easy to catch. The Elixir project uses Mix and ExUnit with clear data maps for each scenario.
-
-## Tooling
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
-
-## Case Study
-
-The extended cases are not random smoke tests. `degraded` keeps pressure on the review path, while `surge` shows the model when capacity and weight are strong enough to clear the threshold.
-
-## Local Workflow
+## Command
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Audit Path
 
-## Quality Gate
+That command is also the regression path. It verifies the domain cases and catches mismatches between the CSV, metadata, and code.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Limits
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Expansion Ideas
-
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add one more chess and game engines fixture that focuses on a malformed or borderline input.
-
-## Scope
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.
